@@ -1,0 +1,58 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Transaction Details') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-2 bg-[#f8fafc] min-h-screen">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="space-y-2">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-1">
+                    <div>
+                        <h1 class="text-3xl font-black text-slate-950 tracking-tight">Transaction Details</h1>
+                        <p class="text-slate-500 font-semibold text-sm">Detailed record view</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100"><span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Check Number</span><p class="text-lg font-bold text-slate-900">{{ $transaction->check_no ?? 'N/A' }}</p></div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100"><span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Payee</span><p class="text-lg font-bold text-slate-900">{{ $transaction->payee }}</p></div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100"><span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Amount Issued</span><p class="text-lg font-black text-cyan-600">₱{{ number_format($transaction->amount_issued, 2) }}</p></div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100"><span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Transaction Date</span><p class="text-lg font-bold text-slate-900">{{ $transaction->transaction_date->format('M d, Y') }}</p></div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100"><span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Specific Fund</span><p class="text-lg font-bold text-slate-900">{{ $transaction->specific_fund }}</p></div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100"><span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Status</span><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-black uppercase tracking-wider {{ $transaction->status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700' }}">{{ $transaction->status }}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                            <div><span class="block text-xs font-black text-slate-400 uppercase mb-1">Office</span><p class="text-sm font-bold">{{ $transaction->office ?? '-' }}</p></div>
+                            <div><span class="block text-xs font-black text-slate-400 uppercase mb-1">Account Code</span><p class="text-sm font-bold">{{ $transaction->account_code ?? '-' }}</p></div>
+                            <div><span class="block text-xs font-black text-slate-400 uppercase mb-1">Category</span><p class="text-sm font-bold">{{ $transaction->current_prior ?? '-' }}</p></div>
+                        </div>
+                        <span class="block text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Nature of Payment</span>
+                        <p class="text-slate-700">{{ $transaction->nature_of_payment ?: 'No details provided' }}</p>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-center pt-4 border-t border-slate-200 space-x-4">
+                        <a href="{{ route('transactions.index') }}" class="px-6 py-3 text-slate-600 font-bold hover:text-slate-900 border border-slate-200 rounded-xl hover:bg-slate-50 transition-all duration-300">
+                            Back to List
+                        </a>
+                        <form action="{{ route('transactions.destroy', $transaction) }}" method="POST" onsubmit="return confirm('Delete this record?')" class="inline">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="px-6 py-3 text-rose-600 font-bold hover:text-rose-700 border border-rose-100 rounded-xl hover:bg-rose-50 transition-all duration-300">Delete</button>
+                        </form>
+                        <a href="{{ route('transactions.edit', $transaction) }}" class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-black py-3 px-8 rounded-xl transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-lg">
+                            Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

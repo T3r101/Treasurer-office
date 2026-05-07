@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Deep Midnight & Sunrise Gradient Theme */
+:root {
+    --midnight-950: #020617;
+    --midnight-900: #0f172a;
+    --midnight-800: #1e293b;
+    --midnight-700: #334155;
+    --sunrise-300: #7dd3fc;
+    --sunrise-400: #38bdf8;
+    --sunrise-500: #0ea5e9;
+    --sunrise-600: #0284c7;
+    --sunrise-orange: #f97316;
+    --sunrise-pink: #ec4899;
+}
+
+/* Main Background - Deep Midnight */
+body, .midnight-bg {
+    background: linear-gradient(180deg, var(--midnight-950) 0%, var(--midnight-900) 100%);
+    min-height: 100vh;
+}
+
+/* Login Background - Deep Midnight with Sunrise accents */
+.login-background {
+    position: relative;
+    min-height: 100vh;
+    background: var(--midnight-950);
+    overflow: hidden;
+}
+
+.login-background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
+                linear-gradient(180deg, var(--midnight-950), var(--midnight-900));
+    z-index: -2;
+}
+
+.login-background::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/image/logo.png') no-repeat center center;
+    background-size: 55%;
+    opacity: 0.06;
+    filter: blur(1px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Card Styles - Midnight with subtle sunrise glow */
+.midnight-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 40px -20px rgba(14, 165, 233, 0.15);
+    backdrop-filter: blur(12px);
+}
+
+.midnight-card:hover {
+    border-color: rgba(56, 189, 248, 0.25);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6),
+                0 0 50px -20px rgba(14, 165, 233, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Sunrise Gradient Button */
+.btn-sunrise {
+    background: linear-gradient(135deg, var(--sunrise-500) 0%, var(--sunrise-orange) 50%, var(--sunrise-pink) 100%);
+    background-size: 200% 200%;
+    animation: sunriseGlow 4s ease infinite;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-sunrise:hover {
+    background-position: 100% 100%;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.5),
+                0 10px 20px -10px rgba(249, 115, 22, 0.4);
+}
+
+@keyframes sunriseGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Text Gradients */
+.text-sunrise {
+    background: linear-gradient(135deg, var(--sunrise-300) 0%, var(--sunrise-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Box Cursor Effects */
+.box-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.box-hover:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 30px -10px rgba(14, 165, 233, 0.3);
+}
+
+.box-hover:active {
+    transform: scale(0.98);
+}
+
+/* Table Styles */
+.midnight-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.midnight-table th {
+    background: linear-gradient(180deg, var(--midnight-800) 0%, var(--midnight-900) 100%);
+    color: var(--sunrise-300);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.midnight-table td {
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+    transition: all 0.2s ease;
+}
+
+.midnight-table tr:hover td {
+    background: rgba(14, 165, 233, 0.05);
+    color: var(--sunrise-300);
+}
+
+/* Input Fields */
+.midnight-input {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    color: #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.midnight-input:focus {
+    border-color: var(--sunrise-400);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15),
+                0 0 20px -10px rgba(14, 165, 233, 0.2);
+    outline: none;
+}
+
+.midnight-input::placeholder {
+    color: rgba(148, 163, 184, 0.5);
+}
+
+/* Status Indicators */
+.status-online {
+    background: #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.status-offline {
+    background: var(--midnight-700);
+}
+
+/* Animations */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Form Focus Ring */
+.focus-sunrise:focus {
+    border-color: var(--sunrise-400);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+    outline: none;
+}
+
+/* Gradient Borders */
+.gradient-border {
+    position: relative;
+}
+
+.gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--sunrise-400), var(--sunrise-orange), var(--sunrise-pink));
+    border-radius: inherit;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+}
+
