@@ -19,7 +19,7 @@
                 @if(isset($recentPayees) || isset($recentNumbers))
                 <form method="GET" action="{{ route('edit-update.index') }}" class="flex items-center gap-2">
                     <input type="text" name="q" value="{{ $query ?? '' }}" placeholder="Search by check no or payee..." 
-                        class="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-cyan-500">
+                        class="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-cyan-500 text-slate-950 font-medium">
                     <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg text-sm transition">
                         Search
                     </button>

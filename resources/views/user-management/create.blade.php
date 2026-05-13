@@ -25,7 +25,7 @@
                             <div>
                                 <label for="name" class="block text-sm font-black text-slate-600 uppercase tracking-wider mb-2">Name</label>
                                 <input type="text" name="name" id="name" value="{{ old('name') }}" 
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer" required>
+                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer text-slate-950 font-medium" required>
                                 @error('name')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -34,7 +34,7 @@
                             <div>
                                 <label for="email" class="block text-sm font-black text-slate-600 uppercase tracking-wider mb-2">Email</label>
                                 <input type="email" name="email" id="email" value="{{ old('email') }}" 
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer" required>
+                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer text-slate-950 font-medium" required>
                                 @error('email')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -43,7 +43,7 @@
                             <div>
                                 <label for="password" class="block text-sm font-black text-slate-600 uppercase tracking-wider mb-2">Password</label>
                                 <input type="password" name="password" id="password" 
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer" required>
+                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer text-slate-950 font-medium" required>
                                 @error('password')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -52,13 +52,13 @@
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-black text-slate-600 uppercase tracking-wider mb-2">Confirm Password</label>
                                 <input type="password" name="password_confirmation" id="password_confirmation" 
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer" required>
+                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer text-slate-950 font-medium" required>
                             </div>
 
                             <div class="md:col-span-2">
                                 <label for="role" class="block text-sm font-black text-slate-600 uppercase tracking-wider mb-2">Role</label>
                                 <select name="role" id="role" 
-                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer" required>
+                                    class="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition hover:bg-slate-100 cursor-pointer text-slate-950 font-medium" required>
                                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
                                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                                 </select>

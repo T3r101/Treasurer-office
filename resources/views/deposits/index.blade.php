@@ -56,7 +56,7 @@
                                     </svg>
                                 </div>
                                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search Cheque No..." 
-                                    class="pl-9 pr-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 outline-none text-sm transition-all bg-slate-50/50 w-48 md:w-64">
+                                    class="pl-9 pr-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 outline-none text-sm transition-all bg-slate-50/50 w-48 md:w-64 text-slate-950 font-medium">
                             </div>
                             <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-xl transition-all text-sm">
                                 Search

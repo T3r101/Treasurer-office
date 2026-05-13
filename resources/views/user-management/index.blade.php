@@ -56,7 +56,7 @@
                                     </svg>
                                 </div>
                                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search Name or Email..." 
-                                    class="pl-9 pr-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 outline-none text-sm transition-all bg-slate-50/50 w-48 md:w-64">
+                                    class="pl-9 pr-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 outline-none text-sm transition-all bg-slate-50/50 w-48 md:w-64 text-slate-950 font-medium">
                             </div>
                             <button type="submit" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-xl transition-all text-sm">
                                 Search
@@ -86,6 +86,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($users as $user)
+                                @if($user->email === 'test@example.com') @continue @endif
                             <tr class="hover:bg-slate-50 transition-all duration-300 cursor-pointer hover:scale-[1.005]">
                                 <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->id }}</td>
                                 <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500">{{ $user->name }}</td>
