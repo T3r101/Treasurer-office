@@ -18,8 +18,7 @@ class DepositController extends Controller
     public function index(Request $request)
     {
         // Only select needed columns to reduce memory usage and speed up queries
-        $query = Deposit::where('user_id', Auth::id())
-            ->select('id', 'cheque_number', 'payee', 'nature_of_payment', 'amount', 'specific_fund', 'description', 'deposit_date', 'status', 'created_at');
+        $query = Deposit::withoutGlobalScopes()->select('id', 'cheque_number', 'payee', 'nature_of_payment', 'amount', 'specific_fund', 'description', 'deposit_date', 'status', 'created_at');
 
         // Search by Cheque Number
         if ($request->filled('search')) {
@@ -74,7 +73,7 @@ class DepositController extends Controller
      */
     public function show(string $id)
     {
-        $deposit = Deposit::where('user_id', Auth::id())->findOrFail($id);
+        $deposit = Deposit::findOrFail($id);
 
         return view('deposits.show', compact('deposit'));
     }
@@ -84,7 +83,7 @@ class DepositController extends Controller
      */
     public function edit(string $id)
     {
-        $deposit = Deposit::where('user_id', Auth::id())->findOrFail($id);
+        $deposit = Deposit::findOrFail($id);
 
         return view('deposits.edit', compact('deposit'));
     }
@@ -94,7 +93,7 @@ class DepositController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $deposit = Deposit::where('user_id', Auth::id())->findOrFail($id);
+        $deposit = Deposit::findOrFail($id);
 
         $request->validate([
             'cheque_number' => 'nullable|string|max:255',
@@ -120,7 +119,7 @@ class DepositController extends Controller
      */
     public function destroy(string $id)
     {
-        $deposit = Deposit::where('user_id', Auth::id())->findOrFail($id);
+        $deposit = Deposit::findOrFail($id);
 
         $deposit->delete();
 

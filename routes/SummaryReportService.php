@@ -15,7 +15,7 @@ class SummaryReportService
         $startDate = isset($filters['start_date']) ? Carbon::parse($filters['start_date']) : now()->startOfMonth();
         $endDate = isset($filters['end_date']) ? Carbon::parse($filters['end_date']) : now()->endOfDay();
 
-        $cacheKey = 'report_summary_' . md5(serialize($filters) . Auth::id());
+        $cacheKey = 'report_summary_' . md5(serialize($filters)); // Removed Auth::id() as data is now global
 
         return Cache::remember($cacheKey, now()->addMinutes(5), function () use ($startDate, $endDate) {
             $totalIncome = $this->getTotalIncome($startDate, $endDate);
@@ -29,9 +29,7 @@ class SummaryReportService
                     'total_expenses' => $totalExpenses,
                     'total_deposits' => $totalDeposits,
                     'net_balance' => $netBalance,
-                    'total_transactions_count'  => Transaction::where('user_id', Auth::id())
-                                                                ->whereBetween('transaction_date', [$startDate, $endDate])
-                                                                ->count(),
+                    'total_transactions_count'  => Transaction::withoutGlobalScopes()->whereBetween('transaction_date', [$startDate, $endDate])->count(),
                 ],
                 'growth_comparison' => $this->getGrowthComparison(),
                 'analytics_data' => [
@@ -49,8 +47,7 @@ class SummaryReportService
 
     public function getSOEData(array $filters): \Illuminate\Support\Collection
     {
-        $query = Transaction::where('user_id', Auth::id())
-            ->whereIn('type', ['expense', 'Expense', 'EXPENSE'])
+        $query = Transaction::withoutGlobalScopes()->whereIn('type', ['expense', 'Expense', 'EXPENSE'])
             ->where('status', 'active');
 
         if (!empty($filters['start_date'])) {
@@ -68,8 +65,7 @@ class SummaryReportService
 
     public function getCDRData(array $filters): \Illuminate\Support\Collection
     {
-        $query = Deposit::where('user_id', Auth::id())
-            ->where('status', 'active');
+        $query = Deposit::withoutGlobalScopes()->where('status', 'active');
 
         if (!empty($filters['start_date'])) {
             $query->whereDate('deposit_date', '>=', $filters['start_date']);
@@ -86,39 +82,34 @@ class SummaryReportService
 
     private function getTotalIncome(Carbon $start, Carbon $end): float
     {
-        return (float) Transaction::where('user_id', Auth::id())
-                                ->where('type', 'income')
+        return (float) Transaction::withoutGlobalScopes()->where('type', 'income')
                                 ->where('status', 'active')
                                 ->whereBetween('transaction_date', [$start, $end])
-                                ->sum('amount');
+                                ->sum(\DB::raw('COALESCE(NULLIF(amount_issued, 0), amount)'));
     }
 
     private function getTotalExpenses(Carbon $start, Carbon $end): float
     {
-        return (float) Transaction::where('user_id', Auth::id())
-                                ->where('type', 'expense')
+        return (float) Transaction::withoutGlobalScopes()->where('type', 'expense')
                                 ->where('status', 'active')
                                 ->whereBetween('transaction_date', [$start, $end])
-                                ->sum('amount');
+                                ->sum(\DB::raw('COALESCE(NULLIF(amount_issued, 0), amount)'));
     }
 
     private function getTotalDeposits(Carbon $start, Carbon $end): float
     {
-        return (float) Deposit::where('user_id', Auth::id())
-                            ->where('status', 'active')
+        return (float) Deposit::withoutGlobalScopes()->where('status', 'active')
                             ->whereBetween('deposit_date', [$start, $end])
                             ->sum('amount');
     }
 
     private function getGrowthComparison(): array
     {
-        $currentTotal = Transaction::where('user_id', Auth::id())
-                                    ->where('status', 'active')
+        $currentTotal = Transaction::withoutGlobalScopes()->where('status', 'active')
                                     ->where('type', 'income')
                                     ->where('transaction_date', '>=', now()->startOfMonth())
-                                    ->sum('amount');
-        $previousTotal = Transaction::where('user_id', Auth::id())
-                                    ->where('status', 'active')
+                                    ->sum(\DB::raw('COALESCE(NULLIF(amount_issued, 0), amount)'));
+        $previousTotal = Transaction::withoutGlobalScopes()->where('status', 'active')
                                     ->where('type', 'income')
                                     ->whereBetween('transaction_date', [
             now()->subMonth()->startOfMonth(),
@@ -138,7 +129,6 @@ class SummaryReportService
     {
         return Transaction::query()
             ->selectRaw('DATE(transaction_date) as label, SUM(amount) as value')
-            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$start, $end])
             ->groupBy('label')
             ->orderBy('label')
@@ -150,7 +140,6 @@ class SummaryReportService
     {
         return Transaction::query()
             ->selectRaw('YEARWEEK(transaction_date, 1) as label_id, MIN(DATE(transaction_date)) as label, SUM(amount) as value')
-            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$start, $end])
             ->groupBy('label_id')
             ->get()
@@ -162,7 +151,6 @@ class SummaryReportService
     {
         return Transaction::query()
             ->selectRaw('DATE_FORMAT(transaction_date, "%Y-%m") as label, SUM(amount) as value')
-            ->where('user_id', Auth::id())
             ->whereBetween('transaction_date', [$start, $end])
             ->groupBy('label')
             ->orderBy('label')

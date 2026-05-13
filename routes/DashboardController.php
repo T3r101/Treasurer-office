@@ -52,8 +52,7 @@ class DashboardController extends Controller
         });
 
         // Fetch and unify recent activities from Transactions and Deposits
-        $transactions = Transaction::where('user_id', Auth::id())
-            ->where('status', 'active')
+        $transactions = Transaction::where('status', 'active')
             ->select('id', 'check_no', 'payee', 'nature_of_payment', 'type', 'amount', 'amount_issued', 'transaction_date', 'created_at');
 
         if ($search) {
@@ -68,8 +67,7 @@ class DashboardController extends Controller
                 return $item;
             });
 
-        $deposits = Deposit::where('user_id', Auth::id())
-            ->where('status', 'active')
+        $deposits = Deposit::where('status', 'active')
             ->select('id', 'cheque_number', 'payee', 'nature_of_payment', 'amount', 'deposit_date', 'created_at');
 
         if ($search) {

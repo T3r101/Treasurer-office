@@ -43,7 +43,7 @@ Route::middleware(['auth', 'last_seen'])->group(function () {
         Route::resource('user-management', UserManagementController::class);
 
         // Edit/Update Module
-        Route::resource('edit-update', EditUpdateController::class)->only(['index', 'edit', 'update'])->parameters([
+        Route::resource('edit-update', EditUpdateController::class)->only(['index', 'edit', 'update', 'destroy'])->parameters([
             'edit-update' => 'id'
         ]);
     });

@@ -17,8 +17,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         // Only select needed columns to reduce memory usage and speed up queries
-        $query = Transaction::where('user_id', Auth::id())
-            ->select('id', 'check_no', 'office', 'payee', 'nature_of_payment', 'amount_issued', 'account_code', 'specific_fund', 'current_prior', 'amount', 'type', 'description', 'transaction_date', 'status', 'created_at');
+        $query = Transaction::withoutGlobalScopes()->select('id', 'check_no', 'office', 'payee', 'nature_of_payment', 'amount_issued', 'account_code', 'specific_fund', 'current_prior', 'amount', 'type', 'description', 'transaction_date', 'status', 'created_at');
 
         // Search by Check No, Payee, or Office
         if ($request->filled('search')) {
@@ -58,7 +57,7 @@ class TransactionController extends Controller
      */
     public function exportExcel(Request $request)
     {
-        $query = Transaction::where('user_id', Auth::id());
+        $query = Transaction::withoutGlobalScopes();
 
         // Apply the same filters as the index method
         if ($request->filled('search')) {
@@ -171,7 +170,7 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        $transaction = Transaction::where('user_id', Auth::id())->findOrFail($id);
+        $transaction = Transaction::findOrFail($id);
 
         return view('transactions.show', compact('transaction'));
     }
@@ -181,7 +180,7 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        $transaction = Transaction::where('user_id', Auth::id())->findOrFail($id);
+        $transaction = Transaction::findOrFail($id);
 
         return view('transactions.edit', compact('transaction'));
     }
@@ -191,7 +190,7 @@ class TransactionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $transaction = Transaction::where('user_id', Auth::id())->findOrFail($id);
+        $transaction = Transaction::findOrFail($id);
 
         $request->validate([
             'check_no' => 'nullable|string|max:255',
@@ -222,10 +221,10 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        $transaction = Transaction::where('user_id', Auth::id())->findOrFail($id);
+        $transaction = Transaction::findOrFail($id);
 
         $transaction->delete();
 
-        return redirect()->route('transactions.index')->with('success', 'Transaction deleted successfully.');
+        return redirect()->back()->with('success', 'Transaction deleted successfully.');
     }
 }

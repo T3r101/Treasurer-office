@@ -53,8 +53,7 @@ class DashboardController extends Controller
 
 // Fetch recent activities using optimized queries with select() to reduce payload
         // Only fetch needed columns for better performance
-        $transactions = Transaction::where('user_id', Auth::id())
-            ->where('status', 'active')
+        $transactions = Transaction::withoutGlobalScopes()->where('status', 'active')
             ->select('id', 'check_no', 'payee', 'nature_of_payment', 'type', 'amount', 'amount_issued', 'transaction_date', 'created_at');
 
         if ($search) {
@@ -69,8 +68,7 @@ class DashboardController extends Controller
                 return $item;
             });
 
-        $deposits = Deposit::where('user_id', Auth::id())
-            ->where('status', 'active')
+        $deposits = Deposit::withoutGlobalScopes()->where('status', 'active')
             ->select('id', 'cheque_number', 'payee', 'nature_of_payment', 'amount', 'deposit_date', 'created_at');
 
         if ($search) {
