@@ -18,8 +18,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @stack('styles')
     </head>
-    <body class="font-sans antialiased text-slate-100 midnight-bg">
-        <div class="min-h-screen bg-gradient-to-b from-midnight-950 via-midnight-900 to-midnight-950">
+    <body class="font-sans antialiased text-slate-900 bg-white">
+        <div class="min-h-screen bg-white">
             @include('sunrise-nav-bar')
 
             <!-- Page Heading -->
@@ -32,7 +32,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="bg-gradient-to-b from-midnight-950 via-midnight-900 to-midnight-950">
+            <main class="bg-white">
                 {{ $slot }}
             </main>
         </div>
